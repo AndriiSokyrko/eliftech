@@ -34,7 +34,7 @@ function createOrder(obj){
     btn.value = 1;
     btn.id = obj.id;
     btn.addEventListener('click', (e) => {
-        const temp = orders.map(obj => obj.id === +e.target.id ? {...obj,count : e.target.value}: obj)
+        const temp = orders.map(obj => obj.id === +e.target.id ? {...obj,count : +e.target.value}: obj)
         setOrders(temp)
         totalPriceFn();
     })

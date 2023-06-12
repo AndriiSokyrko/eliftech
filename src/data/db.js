@@ -17,7 +17,6 @@ const goods = [
     {"id": 7, "title": "pizza3", image: "photomaska1.jpg", price: "666", idShop: '003'},
     {"id": 8, "title": "burger3", image: "photomaska1.jpg", price: "666", idShop: '003'},
     {"id": 9, "title": "ice cream3", image: "photomaska1.jpg", price: "666", idShop: '003'},
-
   ]
 module.exports = {
     menu,

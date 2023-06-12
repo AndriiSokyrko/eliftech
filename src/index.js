@@ -1,4 +1,4 @@
-import {menu, goods, shops} from "./data/db.js"
+// import {menu, goods, shops} from "./data/db.js"
 import "./assets/css/style.scss"
 import { depositphotos_4,
     photomaska,
@@ -9,7 +9,9 @@ import {createMenu} from "./js/menu";
 import {cartFooterBtn, cartFooterPrice, cartWrapper, mainContent, mainWrapper, sctOrders, shopMenuUl} from "./js/share";
 import {createCardsForShopMenu, createShopMenu} from "./js/shops";
 import {validateName, validateAddress, validateEmail, validatePhone, validateEmptyFields} from "./js/validate"
-
+import {Http} from "./js/http.service.js";
+import {getMenu} from "./Routers/routers";
+import {saveTotalInfo} from "./Routers/routers.js"
 validateEmptyFields()
 validateName();
 validateEmail()
@@ -18,14 +20,14 @@ validateAddress();
 
 let totalPrice = 0;
 let orders = [];
-let totalInfo = [];
+let totalInfo = {};
 
 function setOrders(temp){
     orders = [...temp]
 }
 
 cartWrapper.classList.add('hide')
-cartFooterBtn.addEventListener('click', e => {
+cartFooterBtn.addEventListener('click',async e => {
     cartWrapper.classList.add('hide')
     mainWrapper.classList.remove('hide')
     const inpName = document.querySelector('.inpName').value;
@@ -33,8 +35,10 @@ cartFooterBtn.addEventListener('click', e => {
     const inpPhone = document.querySelector('.inpPhone').value;
     const inpAddress = document.querySelector('.inpAddress').value;
     const objInfo = {name: inpName, email: inpEmail, phone :inpPhone, address: inpAddress, total: totalPrice}
-    totalInfo.push(objInfo)
-    totalInfo.push(orders)
+    totalInfo = {info: objInfo}
+    totalInfo = {...totalInfo, orders: orders}
+    const http = new Http({});
+    const obj = await http.load(saveTotalInfo(),{method: 'POST', payload: totalInfo});
 })
 function totalPriceFn(){
     const total = orders.reduce((acc, obj) => {

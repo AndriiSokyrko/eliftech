@@ -20,12 +20,12 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
-        watchFiles: ["src/**/*"],
+        watchFiles: ["src/**/*","public/**/*"],
         compress: true,
         port: 9000,
         hot: true,
         open: true,
-    },
+},
     module: {
         rules: [
             {

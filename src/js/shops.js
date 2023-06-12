@@ -1,16 +1,18 @@
-import {goods, shops} from "../data/db";
+// import {goods, shops} from "../data/db";
 import {mainContent, shopMenuUl} from "./share";
 import {createOrders} from "./cart";
 import {orders} from "../index";
+import {getGoods, getMenu, getShops} from "../Routers/routers";
+import {Http} from "./http.service.js";
 
 let idShop = '001'
 let  checkShopVisit = false
-function disableShops(){
+function disableShops(){}
 
-}
-
-function createShopMenu(){
-    shops.forEach(elm => {
+async function createShopMenu(){
+    const http = new Http({});
+    const obj = await http.load(getShops());
+     obj.shops.forEach(elm => {
         const elmLi = document.createElement('li')
         elmLi.innerHTML = elm.title
         elmLi.id =  elm.id;
@@ -53,9 +55,11 @@ function createCard(obj){
     return card;
 }
 
-function createCardsForShopMenu(){
+async function createCardsForShopMenu(){
+    const http = new Http({});
+    const obj = await http.load(getGoods());
     mainContent.innerHTML = "";
-    goods.forEach(good => {
+    obj.goods.forEach(good => {
         if (good.idShop === idShop) {
             const card = createCard(good)
             mainContent.append(card)
